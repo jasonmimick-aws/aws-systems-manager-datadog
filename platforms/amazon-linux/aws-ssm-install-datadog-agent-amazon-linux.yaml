@@ -1,0 +1,28 @@
+schemaVersion: '2.2'
+description: "Installs the Datadog Agent into an EC2 instance"
+parameters:
+  workingDirectory:
+    type: String
+    default: "/tmp"
+    description: "(Optional) The path to the working directory on your instance."
+    maxChars: 4096
+  datadogAPIKey:
+    type: String
+    description: "(Required) DD_API_KEY environment variable."
+  datadogSite:
+    type: String
+    default: "datadoghq.com"
+    description: "(Optional) DD_SITE environment variable"
+mainSteps:
+- action: aws:runShellScript
+  name: install_datadog
+  precondition:
+    StringEquals:
+    - platformType
+    - Linux
+  inputs:
+    runCommand:
+    - DD_API_KEY="{{ datadogAPIKey }}" DD_SITE="{{ datadogSite }}" bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install_script_agent7.sh)"
+    workingDirectory: "{{ workingDirectory }}"
+    timeoutSeconds: '3600'
+
