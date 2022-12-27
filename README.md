@@ -19,7 +19,7 @@ Working repo to build out AWS System Manager support for Datadog.
     - I've already started adding support for installing a dedicated agent
     into different platorms, ec2, and then eventually containerizer
     environments, but this requirement needs customer validation.
-- How will the RBAC on this work? Will it integration with Control Tower and
+- How will the RBAC on this work? Will it integrate with Control Tower and
     Account Factory?
 - What is the best implementation format? Should we shift to CloudFormation
     templates rather than SSM docs (or support both)?
