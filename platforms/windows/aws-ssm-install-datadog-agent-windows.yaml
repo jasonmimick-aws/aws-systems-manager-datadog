@@ -1,0 +1,28 @@
+schemaVersion: '2.2'
+description: "Installs the Datadog Agent into an EC2 instance"
+parameters:
+  workingDirectory:
+    type: String
+    default: "C:\Users\Administrator"
+    description: "(Optional) The path to the working directory on your instance."
+    maxChars: 4096
+  datadogAPIKey:
+    type: String
+    description: "(Required) DD_API_KEY environment variable."
+  datadogSite:
+    type: String
+    default: "datadoghq.com"
+    description: "(Optional) DD_SITE environment variable"
+mainSteps:
+- action: aws:runShellScript
+  name: install_datadog
+  precondition:
+    StringEquals:
+    - platformType
+    - Windows
+  inputs:
+    runCommand:
+    - start /wait msiexec /qn /i https://s3.amazonaws.com/ddagent-windows-stable/datadog-agent-7-latest.amd64.msi APIKEY=%DATADOG_API_KEY%
+    workingDirectory: "{{ workingDirectory }}"
+    timeoutSeconds: '3600'
+
