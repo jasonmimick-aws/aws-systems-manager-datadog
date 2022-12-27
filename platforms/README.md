@@ -36,6 +36,14 @@ folder as `README.md`
 * Update your readme as per notes in the TEMPLATE_PLATFORM_README.md. 
 * Copy `aws-ssm-install-datadog-agent-TEMPLATE.yaml` into your platform folder replacing `TEMPLATE` with your `PLATFORM_NAME`.
 * Edit template
+* Create your SSM document:
+    ```
+    aws ssm create-document \
+    --content file://PLATFORM_NAME/aws-ssm-install-datadog-agent-PLATFORM_NAME.yaml \
+    --name "AWSSystemsManager-DatadogAgent-PLATFORM_NAME" \
+    --document-type "Command" \
+    --document-format YAML \
+    ```
 * Test - __TODO__ Add some testing, validation steps. 
 
 
