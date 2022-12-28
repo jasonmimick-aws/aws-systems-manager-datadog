@@ -14,6 +14,23 @@ parameters:
     default: "datadoghq.com"
     description: "(Optional) DD_SITE environment variable"
 mainSteps:
+- action: aws:runPowerShellScript
+  name: install_aws_system_manager_agent
+  precondition:
+    StringEquals:
+    - platformType
+    - Windows
+  inputs:
+    # [Reference]
+    # https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-win.html
+    #
+    runCommand:
+      - $progressPreference = "silentlyContinue"
+Invoke-WebRequest `
+    https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/windows_amd64/AmazonSSMAgentSetup.exe `
+    -OutFile $env:USERPROFILE\Desktop\SSMAgent_latest.exe
+    workingDirectory: "{{ workingDirectory }}"
+    timeoutSeconds: '3600'
 - action: aws:runShellScript
   name: install_datadog
   precondition:
